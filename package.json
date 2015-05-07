@@ -1,0 +1,28 @@
+{
+  "name": "photobooth",
+  "version": "1.0.0",
+  "description": "A web photobooth",
+  "main": "photobooth.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chameleooo/photobooth.git"
+  },
+  "keywords": [
+    "photobooth",
+    "node",
+    "touchscreen",
+    "raspberry"
+  ],
+  "author": "Victor Leroy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chameleooo/photobooth/issues"
+  },
+  "homepage": "https://github.com/chameleooo/photobooth",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
+}
