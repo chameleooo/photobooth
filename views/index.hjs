@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{ title }}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
-  </body>
+<head>
+    <title>Photobooth</title>
+    <script src="/js/jquery-2.1.4.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div id="container" class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-6 font-image">
+            <a href="">
+                <span class="glyphicon glyphicon-user"></span>
+            </a>
+        </div>
+        <div class="col-sm-6 font-image">
+            <a href="">
+                <div class="row">
+                    <div class="col-sm-6"><span class="glyphicon glyphicon-user"></span></div>
+                    <div class="col-sm-6"><span class="glyphicon glyphicon-user"></span></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6"><span class="glyphicon glyphicon-user"></span></div>
+                    <div class="col-sm-6"><span class="glyphicon glyphicon-user"></span></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+</body>
 </html>
