@@ -1,4 +1,5 @@
 var express = require('express');
+var less = require('express-less');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -9,6 +10,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+app.use('/less-css', less(__dirname + '/public/less', { debug: true }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

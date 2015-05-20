@@ -1,0 +1,47 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+body {
+  width: 1366px;
+  height: 768px;
+}
+
+.four-pictures-container {
+  height: 730px;
+  width: 500px;
+  margin: 0px auto;
+  padding: 20px;
+}
+
+.four-pictures {
+  float: left;
+  width: 500px;
+  height: 730px;
+  box-shadow: 1px 1px 12px #555;
+  .pictures {
+    width: inherit;
+    height: 600px;
+    .picture {
+      float: left;
+      width: 230px;
+      height: 280px;
+      margin: 10px;
+    }
+  }
+
+  .message {
+    width: inherit;
+    height: 130px;
+  }
+
+  &:active {
+    box-shadow: 1px 1px 8px #555;
+  }
+}
+
+
