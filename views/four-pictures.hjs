@@ -1,0 +1,57 @@
+<div class="pictures-column">
+
+    <div class="picture first-picture">
+        <!--<img src="/images/placeholder-md.png" width="230px" height="280px;">-->
+    </div>
+    <div class="picture third-picture">
+        <!--<img src="/images/placeholder-md.png" width="230px" height="280px;">-->
+    </div>
+
+</div>
+
+<div class="preview-column">
+
+    <div class="preview">
+        <img src="/images/placeholder-md.png" width="460px" height="560px;" style="position:relative">
+    </div>
+
+</div>
+
+<div class="pictures-column">
+
+
+    <div class="picture second-picture">
+        <!--<img src="/images/placeholder-md.png" width="230px" height="280px;">-->
+    </div>
+    <div class="picture fourth-picture">
+        <!--<img src="/images/placeholder-md.png" width="230px" height="280px;">-->
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $.fn.moveTo = function(selector) {
+        var elementToMove = this;
+
+        var targetEmplacement = $(selector);
+
+        var moveTop = targetEmplacement.offset().top - elementToMove.offset().top;
+        var moveLeft = targetEmplacement.offset().left - elementToMove.offset().left;
+
+            elementToMove.animate({
+                top: moveTop,
+                left: moveLeft,
+                width: targetEmplacement.width(),
+                height: targetEmplacement.height()
+            });
+        };
+
+    $(function(){
+        $(".preview img").on("click", function () {
+            $(this).moveTo(".first-picture");
+            $(this).off();
+        });
+    })
+
+</script>
+

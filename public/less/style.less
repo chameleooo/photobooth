@@ -1,3 +1,9 @@
+html, body {
+  height: 100%;
+  margin: 0;
+//  cursor: none;
+}
+
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
@@ -6,10 +12,8 @@ a {
   color: #00B7FF;
 }
 
-body {
-  width: 1366px;
-  height: 768px;
-}
+@four-picture-width: 230px;
+@four-picture-height: 280px;
 
 .four-pictures-container {
   height: 730px;
@@ -28,8 +32,8 @@ body {
     height: 600px;
     .picture {
       float: left;
-      width: 230px;
-      height: 280px;
+      width: @four-picture-width;
+      height: @four-picture-height;
       margin: 10px;
     }
   }
@@ -41,6 +45,32 @@ body {
 
   &:active {
     box-shadow: 1px 1px 8px #555;
+  }
+}
+
+.pictures-column {
+  float: left;
+  background-color: blue;
+  width: 25%;
+  min-height: 100%;
+
+  .picture {
+    background-color: green;
+    width: @four-picture-width;
+    height: @four-picture-height;
+    margin: 50px auto;
+  }
+}
+
+.preview-column {
+  float: left;
+  background-color: red;
+  min-width: 50%;
+  min-height: 100%;
+  .preview {
+    width: @four-picture-width * 2;
+    height: @four-picture-height * 2;
+    margin: 60px auto;
   }
 }
 
