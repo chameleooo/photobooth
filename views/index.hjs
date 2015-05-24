@@ -3,9 +3,11 @@
 <head>
     <title>Photobooth</title>
     <script src="/js/jquery-2.1.4.js"></script>
+    <script src="/js/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script src="/js/bootstrap.js"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap.css">
     <link rel="stylesheet" href="/less-css/style.css">
+    <link rel="stylesheet" href="/js/jquery-ui-1.11.4/jquery-ui.css">
 </head>
 <body>
 <div id="container">

@@ -11,6 +11,8 @@ var fourPictures = require('./routes/four-pictures');
 
 var app = express();
 
+app.locals.mediaFolder = __dirname + '/public/media/';
+
 app.use('/less-css', less(__dirname + '/public/less', { debug: true }));
 
 // view engine setup
