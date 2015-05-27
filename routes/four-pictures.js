@@ -1,5 +1,6 @@
 var express = require('express');
 var fs = require('fs');
+var net = require('net');
 
 var router = express.Router();
 
@@ -7,22 +8,43 @@ var raspbianMjpeg = require('raspbian-mjpeg');
 
 var mediaFolder = "/home/pi/devel/photobooth/public/media/";
 
-var mJpeg = new raspbianMjpeg({
-    statusFilePath: '/var/www/status_mjpeg.txt',
-    fifoFilePath: '/var/www/FIFO',
-    mJpegFilePath: '/dev/shm/mjpeg/cam.jpg',
-    mediaFolder: '/var/www/media/',
-    fps: 25
+var gphoto2 = require('gphoto2');
+var GPhoto = new gphoto2.GPhoto2();
+
+var camera;
+// List cameras / assign list item to variable to use below options
+GPhoto.list(function (list) {
+    if (list.length === 0) return;
+    camera = list[0];
+    console.log('Found', camera.model);
 });
 
-mJpeg.setResolution({
-    videoWidth: 460,
-    videoHeight: 560,
-    videoFps: 25,
-    boxingFps: 25,
-    imageWidth: 1597,
-    imageHeight: 1944
-}, function () {
+var socketPath = '/tmp/preview.sock';
+
+router.get('/preview.jpg', function( req, res ) {
+    console.log("Hey !")
+    var previewServer = net.createServer(function ( c ) {
+        res.contentType('image/jpeg');
+        c.on('end', function () {
+            previewServer.close();
+            res.end();
+        });
+        c.pipe(res); // pipes preview stream to HTTP client
+    });
+    previewServer.listen(socketPath, function () {
+        camera.takePicture({preview:true, socket: socketPath}, function(er){
+            // some logging, error handling
+        });
+    });
+    // double-check EADDRINUSE
+    previewServer.on('error', function(e) {
+        if (e.code !== 'EADDRINUSE') throw e;
+        net.connect({ path: socketPath }, function() {
+            // really in use: re-throw
+            throw e;
+        });
+    });
+
 });
 
 /* GET home page. */

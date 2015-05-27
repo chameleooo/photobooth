@@ -12,7 +12,8 @@
 <div class="preview-column">
 
     <div class="preview">
-        <img id="mjpeg" width="460px" height="560px;" style="position:relative">
+        <canvas id="mjpeg" />
+        <!--<img id="mjpeg" width="460px" height="560px;" style="position:relative">-->
     </div>
 
 </div>
@@ -39,9 +40,6 @@
         var moveTop = targetEmplacement.offset().top;// - elementToMove.offset().top;
         var moveLeft = targetEmplacement.offset().left;// - elementToMove.offset().left;
 
-        console.log(moveTop)
-        console.log(moveLeft)
-
         elementToMove.animate({
             top: moveTop,
             left: moveLeft,
@@ -50,62 +48,112 @@
         });
     };
 
-    $(function () {
-        var pictureCounter = 1;
+//    $(function () {
+//        var pictureCounter = 1;
+//
+//        function takePicture(callback) {
+//            $.ajax({
+//                type: 'POST',
+//                url: "/four-pictures/take-picture",
+//                data: {
+//                    counter: pictureCounter,
+//                    id: id
+//                }
+//            }).success(function (data) {
+//                $newimg = $("<img width='460' height='560' style='position:absolute'/>");
+//                $newimg.css("position", "absolute");
+//                $newimg.offset($("#mjpeg").offset());
+//                $newimg.attr("src", data.picture);
+//
+//                $newimg.load(function () {
+//                    $(this).appendTo($("body"));
+//                    setTimeout(function () {
+//                        $newimg.moveTo(".picture-" + pictureCounter);
+//                        if ($.isFunction(callback)) {
+//                            callback();
+//                        }
+//                    }, 1000);
+//                });
+//            });
+//        }
+//
+//        var interval = setInterval(function () {
+//            takePicture(function () {
+//                pictureCounter++;
+//                if (pictureCounter > 4) {
+//                    clearInterval(interval);
+//                    $("#mjpeg").off();
+//                }
+//            });
+//        }, 4000);
 
-        function takePicture(callback) {
-            $.ajax({
-                type: 'POST',
-                url: "/four-pictures/take-picture",
-                data: {
-                    counter: pictureCounter,
-                    id: id
-                }
-            }).success(function (data) {
-                $newimg = $("<img width='460' height='560' style='position:absolute'/>");
-                $newimg.css("position", "absolute");
-                $newimg.offset($("#mjpeg").offset());
-                $newimg.attr("src", data.picture);
 
-                $newimg.load(function () {
-                    $(this).appendTo($("body"));
-                    setTimeout(function () {
-                        $newimg.moveTo(".picture-" + pictureCounter);
-                        if ($.isFunction(callback)) {
-                            callback();
+
+        $((function(_this) {
+            return function() {
+                var previewRunning;
+                previewRunning = false;
+                var canvas = $("#mjpeg")[0];
+                _this.startPreview = function(canvas, reload, cb) {
+                    var callback, context, image, loadImage, onload, ref;
+                    if (!cb) {
+                        ref = [reload, true], cb = ref[0], reload = ref[1];
+                    }
+                    previewRunning = true;
+                    context = canvas.getContext("2d");
+                    image = new Image();
+                    loadImage = function() {
+                        return image.src = '/four-pictures/preview.jpg?' + Date.parse(new Date());
+                    };
+                    onload = (function(_this) {
+                        return function() {
+                            if (previewRunning) {
+                                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                                if (reload) {
+                                    return loadImage();
+                                }
+                            }
+                        };
+                    })(this);
+                    loadImage();
+                    $(image).bind('load', onload);
+                    callback = function() {
+                        if (cb) {
+                            cb();
                         }
-                    }, 1000);
-                });
-            });
-        }
+                        return $(image).unbind('load', callback);
+                    };
+                    $(image).bind('load', callback);
+                    $(image).bind('error', (function(_this) {
+                        return function() {
+                            return setTimeout(loadImage, 1000);
+                        };
+                    })(this));
+                    return onload();
+                };
+                return _this.stopPreview = function() {
+                    return previewRunning = false;
+                };
+            };
+        })(this));
 
-        var interval = setInterval(function () {
-            takePicture(function () {
-                pictureCounter++;
-                if (pictureCounter > 4) {
-                    clearInterval(interval);
-                    $("#mjpeg").off();
-                }
-            });
-        }, 4000);
-
-        function reload_img() {
-            $("#mjpeg").attr("src", "http://localhost/cam_pic.php?time=" + new Date().getTime())
-        }
-
-        function error_img() {
-            $mjpeg = $("#mjpeg");
-            setTimeout($mjpeg.attr("src", 'http://localhost/cam_pic.php?time=' + new Date().getTime()), 100);
-        }
-
-        function init() {
-            $("#mjpeg").load(reload_img);
-            $("#mjpeg").error(error_img);
-            reload_img();
-        }
-
-        init();
-    })
+//        function reload_img() {
+//            $("#mjpeg").attr("src", "http://localhost/cam_pic.php?time=" + new Date().getTime())
+//        }
+//
+//        function error_img() {
+//            $mjpeg = $("#mjpeg");
+//            setTimeout($mjpeg.attr("src", 'http://localhost/cam_pic.php?time=' + new Date().getTime()), 100);
+//        }
+//
+//        function init() {
+//            $("#mjpeg").load(reload_img);
+//            $("#mjpeg").error(error_img);
+//            reload_img();
+//        }
+//
+//        init();
+//    })
 
 </script>
 
