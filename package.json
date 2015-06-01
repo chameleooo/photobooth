@@ -12,9 +12,9 @@
     "debug": "~2.1.1",
     "express": "~4.12.2",
     "express-less": "0.0.7",
+    "gphoto2": "^0.1.7",
     "hjs": "~0.0.6",
     "morgan": "~1.5.1",
-    "raspbian-mjpeg": "^1.0.7",
     "serve-favicon": "~2.2.0"
   },
   "repository": {

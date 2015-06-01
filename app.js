@@ -13,7 +13,8 @@ var app = express();
 
 app.locals.mediaFolder = __dirname + '/public/media/';
 
-app.use('/less-css', less(__dirname + '/public/less', { debug: true }));
+app.use('/less-css', less(__dirname + '/public/less'));
+app.use('/components',  express.static(__dirname + '/components'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

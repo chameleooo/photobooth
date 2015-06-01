@@ -5,7 +5,9 @@
     <script src="/js/jquery-2.1.4.js"></script>
     <script src="/js/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script src="/js/bootstrap.js"></script>
+    <script src="/components/caman/dist/caman.full.js"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="/stylesheets/circle-spinner.css">
     <link rel="stylesheet" href="/less-css/style.css">
     <link rel="stylesheet" href="/js/jquery-ui-1.11.4/jquery-ui.css">
 </head>
@@ -14,36 +16,51 @@
 
     <div class="full-with">
         <div class="four-pictures-container">
-                <div class="four-pictures">
-                    <div class="pictures">
-                        <div class="picture">
-                            <img src="/images/placeholder-md.png" width="230px" height="280px;">
-                        </div>
-                        <div class="picture">
-                            <img src="/images/placeholder-md.png" width="230px" height="280px;">
-                        </div>
-                        <div class="picture">
-                            <img src="/images/placeholder-md.png" width="230px" height="280px;">
-                        </div>
-                        <div class="picture">
-                            <img src="/images/placeholder-md.png" width="230px" height="280px;">
-                        </div>
+            <div class="four-pictures">
+                <div class="pictures">
+                    <div class="picture">
+                        <img src="/images/placeholder-md.png" width="230px" height="280px;">
                     </div>
-                    <div class="message">
-
+                    <div class="picture">
+                        <img src="/images/placeholder-md.png" width="230px" height="280px;">
+                    </div>
+                    <div class="picture">
+                        <img src="/images/placeholder-md.png" width="230px" height="280px;">
+                    </div>
+                    <div class="picture">
+                        <img src="/images/placeholder-md.png" width="230px" height="280px;">
                     </div>
                 </div>
+                <div class="message">
+
+                </div>
+            </div>
         </div>
     </div>
 
-    <script type="text/javascript" >
-        $(function(){
-            $(".four-pictures").on("click",function(){
+    <script type="text/javascript">
+        $(function () {
+            $(".four-pictures").on("click", function () {
                 $("#container").load("/four-pictures");
             })
         })
     </script>
 
+</div>
+
+<div id="processing" style="display:none;" class="sk-spinner sk-spinner-circle">
+    <div class="sk-circle1 sk-circle"></div>
+    <div class="sk-circle2 sk-circle"></div>
+    <div class="sk-circle3 sk-circle"></div>
+    <div class="sk-circle4 sk-circle"></div>
+    <div class="sk-circle5 sk-circle"></div>
+    <div class="sk-circle6 sk-circle"></div>
+    <div class="sk-circle7 sk-circle"></div>
+    <div class="sk-circle8 sk-circle"></div>
+    <div class="sk-circle9 sk-circle"></div>
+    <div class="sk-circle10 sk-circle"></div>
+    <div class="sk-circle11 sk-circle"></div>
+    <div class="sk-circle12 sk-circle"></div>
 </div>
 
 </body>
