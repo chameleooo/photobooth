@@ -1,114 +1,122 @@
 <div class="first-col">
-    <button id="prevEff" class="btn"> Précédent</button>
+    &nbsp;
 </div>
 
 <div class="preview-column">
 
     <div class="preview">
-        <canvas id="picture"/>
+        <img id="picture"
+             src="{{picture}}"/>
     </div>
 
 </div>
 
 <div class="last-col">
-    <button id="nextEff" class="btn"> Suivant</button>
-    <br/>
-    <button id="reset" class="btn"> Reset</button>
+</div>
+
+<div style="clear: both"/>
+
+<div class="effects">
+    <img src="{{picture}}"
+         data-effect="none"/>
+    <img src="{{picture}}"
+         data-effect="vintage"/>
+    <img src="{{picture}}"
+         data-effect="lomo"/>
+    <img src="{{picture}}"
+         data-effect="clarity"/>
+    <img src="{{picture}}"
+         data-effect="sinCity"/>
+    <img src="{{picture}}"
+         data-effect="sunrise"/>
+    <img src="{{picture}}"
+         data-effect="crossProcess"/>
+    <img src="{{picture}}"
+         data-effect="orangePeel"/>
+    <img src="{{picture}}"
+         data-effect="love"/>
+    <img src="{{picture}}"
+         data-effect="grungy"/>
+    <img src="{{picture}}"
+         data-effect="jarques"/>
+    <img src="{{picture}}"
+         data-effect="pinhole"/>
+    <img src="{{picture}}"
+         data-effect="oldBoot"/>
+    <img src="{{picture}}"
+         data-effect="glowingSun"/>
+    <img src="{{picture}}"
+         data-effect="hazyDays"/>
+    <img src="{{picture}}"
+         data-effect="herMajesty"/>
+    <img src="{{picture}}"
+         data-effect="nostalgia"/>
+    <img src="{{picture}}"
+         data-effect="hemingway"/>
+    <img src="{{picture}}"
+         data-effect="concentrate"/>
 </div>
 
 <script type="text/javascript">
-    var id = {{id}};
-
-    var effects = ["vintage", "lomo", "clarity", "sinCity", "sunrise", "crossProcess", "orangePeel", "love", "grungy", "jarques", "pinhole", "oldBoot", "glowingSun", "hazyDays", "herMajesty", "nostalgia", "hemingway", "concentrate",];
-
-    var cyclicIterator = function (array) {
-        var index = 0;
-        var copy = array.slice(0);
-
-        return {
-            getCurrent: function () {
-                return copy[index];
-            },
-
-            getNext: function () {
-                index = ++index % copy.length;
-                return this.getCurrent();
-            },
-
-            getPrevious: function () {
-                if (--index < 0) {
-                    index += copy.length;
-                }
-                return this.getCurrent();
-            }
-        };
-    };
+    var effects = [
+        "vintage",
+        "lomo",
+        "clarity",
+        "sinCity",
+        "sunrise",
+        "crossProcess",
+        "orangePeel",
+        "love",
+        "grungy",
+        "jarques",
+        "pinhole",
+        "oldBoot",
+        "glowingSun",
+        "hazyDays",
+        "herMajesty",
+        "nostalgia",
+        "hemingway",
+        "concentrate"
+    ];
 
     $(function () {
-        var pictureCounter = 1;
 
-        function takePicture(callback) {
-            $.ajax({
-                type: 'POST',
-                url: "/four-pictures/take-picture",
-                data: {
-                    counter: pictureCounter,
-                    id: id
-                }
-            }).success(function (data) {
-                var canvas = $("#picture")[0];
-                var img = new Image();   // Crée un nouvel objet Image
-                img.src = data.picture; // Définit le chemin vers sa source
-                img.onload = function () {
-                    canvas.width = 1036;
-                    canvas.height = 1036/1.5;
-                    canvas.getContext("2d").drawImage(img, 0, 0, 1036, 1036/1.5)
-                    caman = Caman("#picture");
-                    listenCaman();
-                }
-            });
-        }
+        $(".effects img").each(function () {
+            var effect = $(this).data("effect");
+            if (effect != "none") {
+                Caman($(this)[0])[$(this).data("effect")]().render();
+            }
+        });
 
-        setTimeout(takePicture, 2000);
+        listenCaman();
 
-        $("#prevEff").on("click", previousEffect);
-        $("#nextEff").on("click", nextEffect);
-        $("#reset").on("click", resetEffect);
-
-        var iterator = cyclicIterator(effects);
-
-        var caman;
+        $(".effects canvas ").click(function () {
+            var effect = $(this).data("effect");
+            if (effect == "none") {
+                resetEffect();
+            } else {
+                applyEffet(effect);
+            }
+        });
 
         function resetEffect() {
-            caman.reset();
+            Caman("#picture").reset();
         };
 
-        function previousEffect() {
-            applyEffet(iterator.getPrevious());
-        }
-
-        function nextEffect() {
-            applyEffet(iterator.getNext());
-        }
-
         function startProcessing() {
-            $("button").attr("disabled", "disabled");
             $("#processing").show();
 
         }
 
         function stopProcessing() {
-            $("button").removeAttr("disabled");
             $("#processing").hide();
         }
-
-        var effectTimeout;
 
         function applyEffet(effect) {
             startProcessing();
 
-            caman.reset();
-            caman[effect]().render();
+//            Caman("#picture").reset();
+            Caman("#picture")[effect]().render();
         }
 
         function listenCaman() {

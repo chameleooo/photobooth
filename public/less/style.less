@@ -22,6 +22,11 @@ a {
 @four-picture-width: 230px;
 @four-picture-height: 280px;
 
+#container {
+  height: @screen-height;
+  width: @screen-width;
+}
+
 .four-pictures-container {
   height: 730px;
   width: 500px;
@@ -30,7 +35,7 @@ a {
 }
 
 .four-pictures {
-  background-color:white;
+  background-color: white;
   float: left;
   width: 500px;
   height: 730px;
@@ -64,10 +69,27 @@ a {
 .preview-column {
   float: left;
   width: 1036px;
-  .preview canvas {
-    width: 1036px;
-    height: 1036px/1.5;
+  .preview img, .preview canvas {
+    width: 850px;
     border: 10px solid white;
-    margin-top: 10px;
+    margin: 30px auto;
+    display: block;
+  }
+}
+
+.countdown {
+  color: pink;
+  font-size: 72px;
+  line-height: @screen-height;
+  margin: 0;
+}
+
+.effects {
+  overflow: auto;
+  white-space: nowrap;
+  height: 120px;
+  img, canvas {
+    height: 120px;
+    vertical-align: middle;
   }
 }

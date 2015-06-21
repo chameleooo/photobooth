@@ -40,7 +40,7 @@
     margin: 0 auto;
     width: 20%;
     height: 20%;
-    background-color: #b05199;
+    background-color: pink;
     border-radius: 100%;
     -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out;
     animation: sk-circleBounceDelay 1.2s infinite ease-in-out;

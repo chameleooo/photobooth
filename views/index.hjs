@@ -6,10 +6,13 @@
     <script src="/js/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/components/caman/dist/caman.full.js"></script>
+    <script src="/components/textillate/jquery.textillate.js"></script>
+    <script src="/components/letteringjs/jquery.lettering.js"></script>
     <link rel="stylesheet" href="/stylesheets/bootstrap.css">
     <link rel="stylesheet" href="/stylesheets/circle-spinner.css">
     <link rel="stylesheet" href="/less-css/style.css">
     <link rel="stylesheet" href="/js/jquery-ui-1.11.4/jquery-ui.css">
+    <link rel="stylesheet" href="/components/animate.css/animate.css">
 </head>
 <body>
 <div id="container">
@@ -41,9 +44,17 @@
     <script type="text/javascript">
         $(function () {
             $(".four-pictures").on("click", function () {
-                $("#container").load("/four-pictures");
+                $("#container").load("/countdown");
             })
         })
+
+        if (window.jQuery) {
+            window.jQuery.fn.caman = function (callback) {
+                return this.each(function () {
+                    Caman(this, callback);
+                });
+            };
+        }
     </script>
 
 </div>

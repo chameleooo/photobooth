@@ -1,6 +1,8 @@
 var express = require('express');
 var fs = require('fs');
 var net = require('net');
+var im = require('imagemagick');
+
 
 var router = express.Router();
 
@@ -18,28 +20,25 @@ GPhoto.list(function (list) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+
     var time = Date.now();
     var newDir = req.app.locals.mediaFolder + time;
     fs.mkdir(newDir, function () {
     });
-    res.render('four-pictures', {title: 'Express', id: time});
-});
 
-/* GET home page. */
-router.post('/take-picture', function (req, res, next) {
-
-    var id = req.body.id;
-    var counter = req.body.counter;
-
-    var newPicturePath = id + "/" + counter + ".jpg";
+    var newPicturePath = newDir + "/raw.jpg";
     camera.takePicture({download: true}, function (err, data) {
         console.log(err)
-        fs.writeFileSync(req.app.locals.mediaFolder + newPicturePath, data);
-        res.send({picture: "/media/" + newPicturePath});
-
+        fs.writeFileSync(newPicturePath, data);
+        im.resize({
+            srcData: fs.readFileSync(newPicturePath, 'binary'),
+            width: 850
+        }, function (err, stdout, stderr) {
+            if (err) throw err;
+            fs.writeFileSync(newDir + "/preview.jpg", stdout, 'binary');
+            res.render('four-pictures', {picture: "/media/" + time + "/preview.jpg"});
+        });
     });
-
 });
-
 
 module.exports = router;
