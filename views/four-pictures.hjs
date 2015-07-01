@@ -6,7 +6,7 @@
 
     <div class="preview">
         <img id="picture"
-             src="{{picture}}"/>
+             src="{{preview}}"/>
     </div>
 
 </div>
@@ -17,81 +17,25 @@
 <div style="clear: both"/>
 
 <div class="effects">
-    <img src="{{picture}}"
-         data-effect="none"/>
-    <img src="{{picture}}"
-         data-effect="vintage"/>
-    <img src="{{picture}}"
-         data-effect="lomo"/>
-    <img src="{{picture}}"
-         data-effect="clarity"/>
-    <img src="{{picture}}"
-         data-effect="sinCity"/>
-    <img src="{{picture}}"
-         data-effect="sunrise"/>
-    <img src="{{picture}}"
-         data-effect="crossProcess"/>
-    <img src="{{picture}}"
-         data-effect="orangePeel"/>
-    <img src="{{picture}}"
-         data-effect="love"/>
-    <img src="{{picture}}"
-         data-effect="grungy"/>
-    <img src="{{picture}}"
-         data-effect="jarques"/>
-    <img src="{{picture}}"
-         data-effect="pinhole"/>
-    <img src="{{picture}}"
-         data-effect="oldBoot"/>
-    <img src="{{picture}}"
-         data-effect="glowingSun"/>
-    <img src="{{picture}}"
-         data-effect="hazyDays"/>
-    <img src="{{picture}}"
-         data-effect="herMajesty"/>
-    <img src="{{picture}}"
-         data-effect="nostalgia"/>
-    <img src="{{picture}}"
-         data-effect="hemingway"/>
-    <img src="{{picture}}"
-         data-effect="concentrate"/>
+    {{#effects}}
+        <span id="{{effect}}">
+            <img src="{{thumbnail}}" data-caman="{{effect}}()"/>
+        </span>
+    {{/effects}}
 </div>
 
 <script type="text/javascript">
-    var effects = [
-        "vintage",
-        "lomo",
-        "clarity",
-        "sinCity",
-        "sunrise",
-        "crossProcess",
-        "orangePeel",
-        "love",
-        "grungy",
-        "jarques",
-        "pinhole",
-        "oldBoot",
-        "glowingSun",
-        "hazyDays",
-        "herMajesty",
-        "nostalgia",
-        "hemingway",
-        "concentrate"
-    ];
+
 
     $(function () {
 
-        $(".effects img").each(function () {
-            var effect = $(this).data("effect");
-            if (effect != "none") {
-                Caman($(this)[0])[$(this).data("effect")]().render();
-            }
-        });
+        var caman = Caman("#picture");
+        Caman.DOMUpdated();
 
         listenCaman();
 
-        $(".effects canvas ").click(function () {
-            var effect = $(this).data("effect");
+        $(".effects span ").click(function () {
+            var effect = $(this).attr("id");
             if (effect == "none") {
                 resetEffect();
             } else {
@@ -100,7 +44,7 @@
         });
 
         function resetEffect() {
-            Caman("#picture").reset();
+            caman.reset();
         };
 
         function startProcessing() {
@@ -115,8 +59,8 @@
         function applyEffet(effect) {
             startProcessing();
 
-//            Caman("#picture").reset();
-            Caman("#picture")[effect]().render();
+            caman.reset();
+            caman[effect]().render();
         }
 
         function listenCaman() {
