@@ -35,6 +35,8 @@
         listenCaman();
 
         $(".effects span ").click(function () {
+            unselectAll()
+            $(this).addClass("selected");
             var effect = $(this).attr("id");
             if (effect == "none") {
                 resetEffect();
@@ -42,6 +44,10 @@
                 applyEffet(effect);
             }
         });
+
+        function unselectAll(){
+            $(".effects span.selected").removeClass("selected");
+        }
 
         function resetEffect() {
             caman.reset();
