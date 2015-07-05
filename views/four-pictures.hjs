@@ -6,7 +6,7 @@
 
     <div class="preview">
         <img id="picture"
-             src="{{preview}}"/>
+             src="{{thumbnail}}-none.jpg"/>
     </div>
 
 </div>
@@ -19,7 +19,7 @@
 <div class="effects">
     {{#effects}}
         <span id="{{effect}}">
-            <img src="{{thumbnail}}" data-caman="{{effect}}()"/>
+            <img src="{{thumbnail}}-{{effect}}.jpg" data-caman="{{effect}}()"/>
         </span>
     {{/effects}}
 </div>
@@ -30,7 +30,7 @@
     $(function () {
 
         var caman = Caman("#picture");
-        Caman.DOMUpdated();
+//        Caman.DOMUpdated();
 
         listenCaman();
 

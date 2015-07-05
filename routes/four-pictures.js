@@ -2,12 +2,13 @@ var express = require('express');
 var fs = require('fs');
 var net = require('net');
 var im = require('imagemagick');
-
+var caman = require('caman').Caman;
 
 var router = express.Router();
 
 var gphoto2 = require('gphoto2');
 var GPhoto = new gphoto2.GPhoto2();
+
 
 var camera;
 
@@ -65,11 +66,25 @@ router.get('/', function (req, res, next) {
                 width: 180
             }, function (err, stdout, stderr) {
                 if (err) throw err;
-                fs.writeFileSync(newDir + "/thumbnail.jpg", stdout, 'binary');
+
+                fs.writeFileSync(newDir + "/thumbnail-none.jpg", stdout, 'binary');
+
+                effects.forEach(function (e) {
+                    var effect = e.effect;
+                    if (effect != "none") {
+                        caman(newDir + "/thumbnail-none.jpg", function () {
+                            this[effect]();
+                            this.render(function () {
+                                this.save(newDir + "/thumbnail-" + effect + ".jpg");
+                            });
+                        });
+                    }
+                })
+
                 res.render('four-pictures',
                     {
                         preview: "/media/" + time + "/preview.jpg",
-                        thumbnail: "/media/" + time + "/thumbnail.jpg",
+                        thumbnail: "/media/" + time + "/thumbnail",
                         effects: effects
                     });
             });
