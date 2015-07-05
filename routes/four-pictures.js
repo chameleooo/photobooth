@@ -10,6 +10,7 @@ var gphoto2 = require('gphoto2');
 var GPhoto = new gphoto2.GPhoto2();
 
 var camera;
+
 // List cameras / assign list item to variable to use below options
 GPhoto.list(function (list) {
     if (list.length === 0) return;
