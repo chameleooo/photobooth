@@ -6,7 +6,7 @@
 
     <div class="preview">
         <img id="picture"
-             src="{{thumbnail}}-none.jpg"/>
+             src="/media/current/preview.jpg"/>
     </div>
 
 </div>
@@ -19,7 +19,7 @@
 <div class="effects">
     {{#effects}}
         <span id="{{effect}}">
-            <img src="{{thumbnail}}-{{effect}}.jpg" data-caman="{{effect}}()"/>
+            <img src="/media/current/thumbnail-{{effect}}.jpg" data-caman="{{effect}}()"/>
         </span>
     {{/effects}}
 </div>
@@ -30,7 +30,6 @@
     $(function () {
 
         var caman = Caman("#picture");
-//        Caman.DOMUpdated();
 
         listenCaman();
 
@@ -38,14 +37,10 @@
             unselectAll()
             $(this).addClass("selected");
             var effect = $(this).attr("id");
-            if (effect == "none") {
-                resetEffect();
-            } else {
-                applyEffet(effect);
-            }
+            $("#" + effect).attr("src", $("#" + effect));
         });
 
-        function unselectAll(){
+        function unselectAll() {
             $(".effects span.selected").removeClass("selected");
         }
 

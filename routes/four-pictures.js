@@ -12,12 +12,18 @@ var GPhoto = new gphoto2.GPhoto2();
 
 var camera;
 
+var currentDir = "/media/current/"
+
 // List cameras / assign list item to variable to use below options
 GPhoto.list(function (list) {
     if (list.length === 0) return;
     camera = list[0];
     console.log('Found', camera.model);
 });
+
+if (!fs.existsSync(currentDir)) {
+    fs.mkdirSync(currentDir);
+}
 
 var effects = [
     {effect: "none"},
@@ -45,6 +51,8 @@ var effects = [
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
+    rmDir(currentDir, false);
+
     var time = Date.now();
     var newDir = req.app.locals.mediaFolder + time;
     fs.mkdir(newDir, function () {
@@ -56,40 +64,72 @@ router.get('/', function (req, res, next) {
         fs.writeFileSync(newPicturePath, data);
         im.resize({
             srcData: fs.readFileSync(newPicturePath, 'binary'),
-            width: 850
+            width: 500
         }, function (err, stdout, stderr) {
             if (err) throw err;
-            fs.writeFileSync(newDir + "/preview.jpg", stdout, 'binary');
+            fs.writeFileSync(currentDir + "preview-none.jpg", stdout, 'binary');
             im.resize({
-                srcData: fs.readFileSync(newDir + "/preview.jpg", 'binary'),
-                height: 120,
-                width: 180
+                srcData: fs.readFileSync(currentDir + "preview.jpg", 'binary'),
+                height: 80,
+                width: 120
             }, function (err, stdout, stderr) {
                 if (err) throw err;
 
-                fs.writeFileSync(newDir + "/thumbnail-none.jpg", stdout, 'binary');
+                fs.writeFileSync(currentDir + "thumbnail-none.jpg", stdout, 'binary');
 
-                effects.forEach(function (e) {
+                effects.forEach(function (e, index) {
                     var effect = e.effect;
                     if (effect != "none") {
-                        caman(newDir + "/thumbnail-none.jpg", function () {
+                        caman(currentDir + "thumbnail-none.jpg", function () {
                             this[effect]();
                             this.render(function () {
-                                this.save(newDir + "/thumbnail-" + effect + ".jpg");
+                                this.save(currentDir + "/thumbnail-" + effect + ".jpg");
+                                if (index == effects.length - 1) {
+                                    res.render('four-pictures',
+                                        {
+                                            effects: effects
+                                        });
+                                }
                             });
                         });
                     }
-                })
+                });
 
-                res.render('four-pictures',
-                    {
-                        preview: "/media/" + time + "/preview.jpg",
-                        thumbnail: "/media/" + time + "/thumbnail",
-                        effects: effects
-                    });
+                effects.forEach(function (e, index) {
+                    var effect = e.effect;
+                    if (effect != "none") {
+                        caman(currentDir + "preview.jpg", function () {
+                            this[effect]();
+                            this.render(function () {
+                                this.save(currentDir + "/preview-" + effect + ".jpg");
+
+
+                            });
+                        });
+                    }
+                });
             });
         });
     });
 });
+
+
+
+function rmDir(dirPath, removeSelf) {
+    if (removeSelf === undefined)
+        removeSelf = true;
+    try { var files = fs.readdirSync(dirPath); }
+    catch(e) { return; }
+    if (files.length > 0)
+        for (var i = 0; i < files.length; i++) {
+            var filePath = dirPath + '/' + files[i];
+            if (fs.statSync(filePath).isFile())
+                fs.unlinkSync(filePath);
+            else
+                rmDir(filePath);
+        }
+    if (removeSelf)
+        fs.rmdirSync(dirPath);
+};
 
 module.exports = router;
