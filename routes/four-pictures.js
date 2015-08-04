@@ -29,16 +29,16 @@ var effects = [
     {effect: "sunrise"},
     {effect: "crossProcess"},
     {effect: "orangePeel"},
-    {effect: "love"},
-    {effect: "grungy"},
-    {effect: "jarques"},
-    {effect: "pinhole"},
-    {effect: "oldBoot"},
-    {effect: "glowingSun"},
-    {effect: "hazyDays"},
-    {effect: "herMajesty"},
-    {effect: "nostalgia"},
-    {effect: "hemingway"},
+    //{effect: "love"},
+    //{effect: "grungy"},
+    //{effect: "jarques"},
+    //{effect: "pinhole"},
+    //{effect: "oldBoot"},
+    //{effect: "glowingSun"},
+    //{effect: "hazyDays"},
+    //{effect: "herMajesty"},
+    //{effect: "nostalgia"},
+    //{effect: "hemingway"},
     {effect: "concentrate"}
 ];
 
@@ -61,12 +61,12 @@ router.get('/', function (req, res, next) {
 
     var newPicturePath = newDir + "/raw.jpg";
     camera.takePicture({download: true}, function (err, data) {
-        console.log(err)
         fs.writeFileSync(newPicturePath, data);
         im.resize({
             srcData: fs.readFileSync(newPicturePath, 'binary'),
             width: 500
         }, function (err, stdout, stderr) {
+            console.log("first resize")
             if (err) throw err;
             fs.writeFileSync(currentDir + "preview-none.jpg", stdout, 'binary');
             im.resize({
@@ -75,12 +75,14 @@ router.get('/', function (req, res, next) {
                 width: 120
             }, function (err, stdout, stderr) {
                 if (err) throw err;
+                console.log("second resize")
 
                 fs.writeFileSync(currentDir + "thumbnail-none.jpg", stdout, 'binary');
 
                 effects.forEach(function (e, index) {
                     var effect = e.effect;
                     if (effect != "none") {
+                        console.log("apply effect " + effect)
                         caman(currentDir + "thumbnail-none.jpg", function () {
                             this[effect]();
                             this.render(function () {
@@ -91,20 +93,6 @@ router.get('/', function (req, res, next) {
                                             effects: effects
                                         });
                                 }
-                            });
-                        });
-                    }
-                });
-
-                effects.forEach(function (e, index) {
-                    var effect = e.effect;
-                    if (effect != "none") {
-                        caman(currentDir + "preview-none.jpg", function () {
-                            this[effect]();
-                            this.render(function () {
-                                this.save(currentDir + "/preview-" + effect + ".jpg");
-
-
                             });
                         });
                     }

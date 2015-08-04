@@ -6,7 +6,7 @@
 
     <div class="preview">
         <img id="picture"
-             src="/media/current/preview.jpg"/>
+             src="/media/current/preview-none.jpg"/>
     </div>
 
 </div>
@@ -19,7 +19,7 @@
 <div class="effects">
     {{#effects}}
         <span id="{{effect}}">
-            <img src="/media/current/thumbnail-{{effect}}.jpg" data-caman="{{effect}}()"/>
+            <img src="/media/current/thumbnail-{{effect}}.jpg" />
         </span>
     {{/effects}}
 </div>
@@ -29,24 +29,16 @@
 
     $(function () {
 
-        var caman = Caman("#picture");
-
-        listenCaman();
-
         $(".effects span ").click(function () {
             unselectAll()
             $(this).addClass("selected");
             var effect = $(this).attr("id");
-            $("#" + effect).attr("src", $("#" + effect));
+            $("#picture").attr("src", $("#" + effect + " > img").attr("src"));
         });
 
         function unselectAll() {
             $(".effects span.selected").removeClass("selected");
         }
-
-        function resetEffect() {
-            caman.reset();
-        };
 
         function startProcessing() {
             $("#processing").show();
@@ -56,20 +48,6 @@
         function stopProcessing() {
             $("#processing").hide();
         }
-
-        function applyEffet(effect) {
-            startProcessing();
-
-            caman.reset();
-            caman[effect]().render();
-        }
-
-        function listenCaman() {
-            Caman.Event.listen("renderFinished", function (job) {
-                stopProcessing();
-            });
-        }
-
     })
 
 </script>
