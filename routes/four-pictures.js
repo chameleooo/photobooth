@@ -70,7 +70,7 @@ router.get('/', function (req, res, next) {
             if (err) throw err;
             fs.writeFileSync(currentDir + "preview-none.jpg", stdout, 'binary');
             im.resize({
-                srcData: fs.readFileSync(currentDir + "preview.jpg", 'binary'),
+                srcData: fs.readFileSync(currentDir + "preview-none.jpg", 'binary'),
                 height: 80,
                 width: 120
             }, function (err, stdout, stderr) {
@@ -99,7 +99,7 @@ router.get('/', function (req, res, next) {
                 effects.forEach(function (e, index) {
                     var effect = e.effect;
                     if (effect != "none") {
-                        caman(currentDir + "preview.jpg", function () {
+                        caman(currentDir + "preview-none.jpg", function () {
                             this[effect]();
                             this.render(function () {
                                 this.save(currentDir + "/preview-" + effect + ".jpg");
