@@ -12,7 +12,7 @@ var GPhoto = new gphoto2.GPhoto2();
 
 var camera;
 
-var currentDir = "/media/current/"
+var currentDir = "/media/current/";
 
 // List cameras / assign list item to variable to use below options
 GPhoto.list(function (list) {
@@ -20,10 +20,6 @@ GPhoto.list(function (list) {
     camera = list[0];
     console.log('Found', camera.model);
 });
-
-if (!fs.existsSync(currentDir)) {
-    fs.mkdirSync(currentDir);
-}
 
 var effects = [
     {effect: "none"},
@@ -50,6 +46,10 @@ var effects = [
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+
+    if (!fs.existsSync(currentDir)) {
+        fs.mkdirSync(currentDir);
+    }
 
     rmDir(currentDir, false);
 
